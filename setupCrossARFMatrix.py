@@ -460,6 +460,47 @@ for reg in range(2,num_regs+1):
             model_lines.append(line)
 
 
+##### XRISM CONSTANTS #####
+# identify number of xrism obs
+num_xrism_obs = 0
+for key in regs_xrism:
+    num_obs_this = len(regs_xrism[key]['data'])
+    for _ in range(num_obs_this):
+        num_xrism_obs += 1
+
+# untie each xrism const in s1 (since they are all seperate obs)
+'''
+logic from above:
+obs is 0-(len(obsids)-1) because it was designed for obs beyond the first (-1)
+r is 0-num_regs
+-> ((3+2*obs)*num_regs+1)*num_par + num_par*r
+-> maximize: ((3+2*(obs->len(obsids)-2))*num_regs+1)*num_par + num_par*(r->num_regs-1)
+-> maximize: ((3+2*(len(obsids)-2))*num_regs+1)*num_par + num_par*(num_regs-1)
+'''
+model_lines.append('\n# untie XRISM constants in s1 (all seperate for now)\n')
+xrism_consts = []
+# for just s1
+num_par = models[1]['num_pars']
+last_nu = ((3+2*(len(obsids)-2))*num_regs+1)*num_par + num_par*(num_regs-1)
+first_xrism = last_nu + num_par
+for next_xrism in range(num_xrism_obs):
+    par = first_xrism + next_xrism*num_par
+    xrism_consts.append(par)
+    new_line = f'untie s1:{par}\n'
+    model_lines.append(new_line)
+
+# tie across the models to s1
+model_lines.append('\n# tie XRISM constants to s1 constants\n')
+for mod in range(2,num_regs+1):
+    num_par = models[mod]['num_pars']
+    last_nu = ((3+2*(len(obsids)-2))*num_regs+1)*num_par + num_par*(num_regs-1)
+    first_xrism = last_nu + num_par
+    for next_xrism in range(num_xrism_obs):
+        par = first_xrism + next_xrism*num_par
+        new_line = f'newpar s{mod}=s1:{xrism_consts[next_xrism]}\n'
+        model_lines.append(new_line)
+
+
 # add the model lines to the script
 script_lines.extend(model_lines)
 
@@ -469,7 +510,9 @@ script_lines.extend([
     '\n# set statistic\n',
     'statistic cstat\n',
     '\n# set abundance\n',
-    'abund lpgs\n\n',
+    'abund lpgs\n',
+    '\n# set query\n',
+    'query yes\n\n',
     'cpd /xs\n'
     'setpl e\n',
     'ignore **:**-3.,16.-**\n',
