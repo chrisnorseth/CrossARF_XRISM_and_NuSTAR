@@ -1,0 +1,122 @@
+# Number of regions
+Regions: 5
+
+# Assuming that both XRISM and NuSTAR data for the cluster are in the same 
+# parent directory (if they are not please make it so) 
+#main_directory = "/Users/atumer/Documents/Universe/Data/NuSTAR/"
+main_directory = "/Users/christiannorseth/GradResearch/Aysegul"
+
+# the name of the output script, located in the parent directory
+output_script = "Virgo/nustarAndXrism_A.xcm"
+
+----------------------------------------------------------------------------
+###### NuSTAR ######
+----------------------------------------------------------------------------
+nu_directory = "Virgo/arf"
+nu_reg_base = "arf"
+
+nu_obsids = [
+    50502002002 
+    50502002004 
+    50502002006 
+    60502010002 
+    60502010004 
+    60702051001 
+    60702051002 
+    60801007002 
+    90202052002 
+    90202052004
+]
+
+
+----------------------------------------------------------------------------
+###### XRISM ######
+----------------------------------------------------------------------------
+xrism_directory = "Virgo/XRISM"
+xrism_bg_directory = "Virgo/XRISM/Resolve_Background"
+
+----------------------------------------------------------------------------
+## REGION 2 -> NW ##
+Region: 2
+directory = "Northwest"
+num_obs = 2
+
+spectrum = "xa300016010rsl_Hp_ob.pi"
+back = "xa300016010_rslnxb_caob.fak"
+rmf = "xa300016010rsl_p0px1000_cl4_Hp_X_comb.rmf"
+arfs: {
+    "2_2": "xa300016010rsl_p0px1000_cl4_himg_skyNWtodetNW.arf"
+    "3_2": "xa300016010rsl_p0px1000_cl4_himg_skySWtodetNW.arf"
+    "4_2": "xa300016010rsl_p0px1000_cl4_himg_skyEtodetNW.arf"
+    "5_2": "xa300016010rsl_p0px1000_cl4_himg_skyCtodetNW.arf"
+}
+
+spectrum = "xa300016020rsl_Hp_ob.pi"
+back = "xa300016020_rslnxb_caob.fak"
+rmf = "xa300016020rsl_p0px1000_cl4_Hp_X_comb.rmf"
+arfs: {
+    "2_2": "xa300016020rsl_p0px1000_cl4_himg_skyNWtodetNW.arf"
+    "3_2": "xa300016020rsl_p0px1000_cl4_himg_skySWtodetNW.arf"
+    "4_2": "xa300016020rsl_p0px1000_cl4_himg_skyEtodetNW.arf"
+    "5_2": "xa300016020rsl_p0px1000_cl4_himg_skyCtodetNW.arf"
+}
+
+----------------------------------------------------------------------------
+## REGION 3 -> SW ##
+Region: 3
+directory = "Southwest"
+num_obs = 2
+
+spectrum = "xa300017010rsl_Hp_ob.pi"
+back = "xa300017010_rslnxb_caob.fak"
+rmf = "xa300017010rsl_p0px1000_cl4_Hp_X_comb.rmf"
+arfs: {
+    "2_3": "xa300017010rsl_p0px1000_cl4_himg_skyNWtodetSW.arf"
+    "3_3": "xa300017010rsl_p0px1000_cl4_himg_skySWtodetSW.arf"
+    "4_3": "xa300017010rsl_p0px1000_cl4_himg_skyEtodetSW.arf"
+    "5_3": "xa300017010rsl_p0px1000_cl4_himg_skyCtodetSW.arf"
+}
+
+spectrum = "xa300017020rsl_Hp_ob.pi"
+back = "xa300017020_rslnxb_caob.fak"
+rmf = "xa300017020rsl_p0px1000_cl4_Hp_X_comb.rmf"
+arfs: {
+    "2_3": "xa300017020rsl_p0px1000_cl4_himg_skyNWtodetSW.arf"
+    "3_3": "xa300017020rsl_p0px1000_cl4_himg_skySWtodetSW.arf"
+    "4_3": "xa300017020rsl_p0px1000_cl4_himg_skyEtodetSW.arf"
+    "5_3": "xa300017020rsl_p0px1000_cl4_himg_skyCtodetSW.arf"
+}
+
+----------------------------------------------------------------------------
+## REGION 4 -> E ##
+Region: 4
+directory = "East"
+num_obs = 1
+
+spectrum = "xa300015010rsl_Hp_ob.pi"
+rmf = "xa300015010rsl_p0px1000_cl4_Hp_X_comb.rmf"
+back = "xa300015010_rslnxb_caob.fak"
+arfs: {
+    "2_4": "xa300015010rsl_p0px1000_cl4_himg_skyNWtodetE.arf"
+    "3_4": "xa300015010rsl_p0px1000_cl4_himg_skySWtodetE.arf"
+    "4_4": "xa300015010rsl_p0px1000_cl4_himg_skyEtodetE.arf"
+    "5_4": "xa300015010rsl_p0px1000_cl4_himg_skyCtodetE.arf"
+}
+
+----------------------------------------------------------------------------
+## REGION 5 -> Center ##
+Region: 5
+directory = "Center"
+num_obs = 1
+
+spectrum = "xa300014010rsl_Hp_ob.pi"
+back = "xa300014010_rslnxb_caob.fak"
+rmf = "xa300014010rsl_p0px1000_cl4_Hp_X_comb.rmf"
+arfs: {
+    "2_5": "xa300014010rsl_p0px1000_cl4_himg_skyNWtodetC.arf"
+    "3_5": "xa300014010rsl_p0px1000_cl4_himg_skySWtodetC.arf"
+    "4_5": "xa300014010rsl_p0px1000_cl4_himg_skyEtodetC.arf"
+    "5_5": "xa300014010rsl_p0px1000_cl4_himg_skyCtodetC.arf"
+}
+
+----------------------------------------------------------------------------
