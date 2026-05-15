@@ -1,5 +1,5 @@
 ## Define the models
-# make sure the const is at the end,
+# make sure the (frozen) const is at the end,
 # there is one blank line between each model,
 # and there is an extra line at the very end.
 
