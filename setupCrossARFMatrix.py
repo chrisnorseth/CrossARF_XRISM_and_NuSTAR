@@ -261,8 +261,7 @@ for idx,line in enumerate(models_file_lines):
                 models[mod_num]['lines'].append(line_to_add)
                 num_pars += 1
         models[mod_num]['num_pars'] = num_pars
-
-        
+   
 
 
 matrix = {}
@@ -357,7 +356,7 @@ for col in matrix:
 
 ### setup models
 # establish models
-model_lines = []
+model_lines = ['\n# setup models\n']
 
 for model_key in models:
     model = models[model_key]['lines']
@@ -375,10 +374,13 @@ first_mod_par_num = models[1]['num_pars']
 const_par = (num_regs+1)*first_mod_par_num
 
 # for 1 Bs for first obs
+model_lines.append('\n# tie s1 Bs for 1st obs\n')
 for reg in range(1,num_regs):
     one_B_line = f'newpar s1:{(num_regs+1+reg)*first_mod_par_num}=s1:{const_par}\n'
     model_lines.append(one_B_line)
+
 # 1 Bs for other obs (sequence is A,B,A,B)
+model_lines.append('\n# tie s1 Bs for other obs\n')
 for obs in range(len(obsids)-1):
     for reg in range(num_regs):
         '''
@@ -414,12 +416,14 @@ for obs in range(len(obsids)-1):
 
 ## for the As in other models
 # tie the first const of other models to the first model's
+model_lines.append('\n# tie As for other srcs to src 1 A\n')
 for reg in range(2,num_regs+1):
     num_pars_mod = models[reg]['num_pars']
     a_line = f'newpar s{reg}:{num_pars_mod}=s1:{first_mod_par_num}\n'
     model_lines.append(a_line)
 
 ## untie the B const
+model_lines.append('\n# untie B const in src 1\n')
 model_lines.append(f'untie s1:{const_par}\n')
 
 ## tie the Bs from other models to the first model (for the first obsid)
@@ -427,6 +431,7 @@ model_lines.append(f'untie s1:{const_par}\n')
 first tie the first B in the other model to the first model
 then tie the rest of the Bs in that model to the first B in the model
 '''
+model_lines.append('\n# for first obs: tie Bs in src N to src 1 and then src N Bs to each other\n')
 for reg in range(2, num_regs+1):
     # number of paramters in specific model
     num_pars_mod = models[reg]['num_pars']
@@ -440,6 +445,7 @@ for reg in range(2, num_regs+1):
 
 ## tie Bs for other obs
 # follows same logic as above for the 1st Bs, except now based on each specific model num of pars
+model_lines.append('\n# for other obs: tie Bs in src N to src 1 and then src N Bs to each other\n')
 for reg in range(2,num_regs+1):
     # number of paramters in specific model
     num_pars_mod = models[reg]['num_pars']
@@ -447,8 +453,8 @@ for reg in range(2,num_regs+1):
     par_setting_to = (num_regs+1)*num_pars_mod
 
     for obs in range(len(obsids)-1):
-        for reg in range(num_regs):
-            par = ((3+2*obs)*num_regs+1)*num_pars_mod + num_pars_mod*reg
+        for r in range(num_regs):
+            par = ((3+2*obs)*num_regs+1)*num_pars_mod + num_pars_mod*r
 
             line = f'newpar s{reg}:{par}=s{reg}:{par_setting_to}\n'
             model_lines.append(line)
