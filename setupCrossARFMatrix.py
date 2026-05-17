@@ -497,7 +497,7 @@ for mod in range(2,num_regs+1):
     first_xrism = last_nu + num_par
     for next_xrism in range(num_xrism_obs):
         par = first_xrism + next_xrism*num_par
-        new_line = f'newpar s{mod}=s1:{xrism_consts[next_xrism]}\n'
+        new_line = f'newpar s{mod}:{par}=s1:{xrism_consts[next_xrism]}\n'
         model_lines.append(new_line)
 
 
