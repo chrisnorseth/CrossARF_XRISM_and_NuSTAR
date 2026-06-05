@@ -1,6 +1,6 @@
 ## Define the models
-# make sure the const is at the end,
-# there is only one blank line between each model,
+# make sure the (frozen) const is at the end,
+# there is one blank line between each model,
 # and there is an extra line at the very end.
 
 model 1:s1 (bapec+po)*phabs*const
